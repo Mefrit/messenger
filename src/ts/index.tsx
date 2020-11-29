@@ -10,11 +10,12 @@ const ROOT = document.getElementById("root");
 
 ReactDOM.render(<h1>Hellen</h1>, ROOT);
 
-let arrPersons = [
+let arrPersons1111s1111s1111sssss1111111111 = [
 
     {
         url: "./src/images/person2.png",
         x: 8,
+
         y: 0,
         evil: true,
         class: "fighter",
@@ -24,27 +25,3 @@ let arrPersons = [
     }
 ];
 
-class Director1 {
-    scene: any;
-    ai: any;
-    persController: any;
-    constructor(loader, arrPersons) {
-        // this.ai = new Ai([]);
-        // this.scene = new Scene(loader, arrPersons, this.ai);
-
-        this.ai.initScene(this.scene);
-        this.start();
-    }
-    start() {
-        let play = document.createElement("input");
-        play.type = "button";
-        play.classList.add("button");
-        play.value = "Ход соперника";
-        play.addEventListener("click", this.startAI);
-        document.getElementById("scene").appendChild(play);
-    }
-    startAI = () => {
-        this.ai.step();
-    };
-}
-new Director1({}, arrPersons);

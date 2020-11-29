@@ -1,7 +1,7 @@
 {
     "files": [
-        "src/ts/*.ts",
-        "src/ts/*.tsx"
+        "src/ts/**/*.ts",
+        "src/ts/**/*.tsx"
     ],
     "compilerOptions": {
         "noImplicitAny": false,
@@ -17,5 +17,9 @@
         "jsx": "react",
         "moduleResolution": "node",
         "allowJs": true,
-    }
+    },
+    "exclude": [
+        "node_modules",
+        "public",
+    ]
 }

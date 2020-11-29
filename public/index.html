@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Game of Herous</title>
+    <link href="../public/" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div id="scene" class="scene background"></div>
+    <div id="block_information"></div>
+    <div id="root">
+    </div>
+</body>
+ <script>
+    var ws = new WebSocket("ws://127.0.0.1:5678/"),
+        messages = document.createElement('ul');
+    ws.onmessage = function (event) {
+        var messages = document.getElementsByTagName('ul')[0],
+            message = document.createElement('li'),
+            content = document.createTextNode(event.data);
+        message.appendChild(content);
+        messages.appendChild(message);
+    };
+    document.body.appendChild(messages);
+</script>
+<script src="../node_modules/requirejs/require.js" data-main="../public/js/index.js"></script>
+<script src="../src/requireJSconfig/requireConfig.js" type="text/javascript"></script>
+
+</html>
