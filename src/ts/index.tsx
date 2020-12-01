@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { RegistrationComponent } from "./components/registration"
 // import { ImageDownloader } from "./js/loader";
 // import { Ai } from "./js/modules/ai";
 // import { Scene } from "./js/modules/scene";
@@ -7,8 +8,21 @@ import * as ReactDOM from "react-dom";
 // import { Module } from "./components/modules/module";
 
 const ROOT = document.getElementById("root");
+class App extends React.Component<any, any>{
+    constructor(props) {
+        super(props);
+        this.state = {
+            enter: false
+        };
 
-ReactDOM.render(<h1>Hellen</h1>, ROOT);
+    }
+    render() {
+        return <div>
+            {this.state.enter ? <h1>You areEnter</h1> : <RegistrationComponent />}
+        </div>;
+    }
+}
+ReactDOM.render(<App />, ROOT);
 
 let arrPersons1111s1111s1111sssss1111111111 = [
 

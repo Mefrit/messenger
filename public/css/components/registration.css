@@ -1,0 +1,23 @@
+.reg {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+}
+.reg__showEnter {
+  cursor: pointer;
+}
+.reg__showReg {
+  cursor: pointer;
+}
+.reg__activeMode {
+  background-color: #cecece;
+}
+.inputs {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+}
+.inputs__btn {
+  width: auto;
+  max-width: 150px;
+}

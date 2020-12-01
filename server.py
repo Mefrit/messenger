@@ -8,6 +8,11 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
+    def _set_headers_css(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/css')
+        self.end_headers()
+
     def _set_headers_json(self):
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
@@ -23,10 +28,17 @@ class HandleRequests(BaseHTTPRequestHandler):
             result = json.dumps(result)
             self.wfile.write(json.dumps({'hello': 'world', 'received': 'ok'}).encode())
             return
+        elif self.path.endswith(".css"):
+            self._set_headers_css()
+            print(" Csss     FILEOPEN========>>>>>> ",self.path,"\n")
+            f = open("." + self.path, 'rb')
+            self.wfile.write(f.read())
+            f.close()
+            return
         else:
             self._set_headers_html()
             #  self.path - текущий путь в url
-            print("FILEOPEN !!!!@@#!@#!@@@@@@@@@@@@@",self.path)
+            print("FILEOPEN========>>>>>> ",self.path,"\n")
             f = open("." + self.path, 'rb')
             # self.wfile.write(result)
             self.wfile.write(f.read())
