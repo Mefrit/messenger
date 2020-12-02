@@ -29,15 +29,47 @@ define(["require", "exports", "react"], function (require, exports, React) {
             };
             _this.onReg = function (event) {
                 event.preventDefault();
-                console.log("registation");
+                console.log("registation", _this.state);
+                fetch("/?action=test", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: JSON.stringify({ a: 1, b: 'Textual content' })
+                })
+                    .then(function (data) { return data.json(); })
+                    .then(function (result) {
+                    console.log("result from server", result);
+                });
             };
             _this.onEnter = function (event) {
                 event.preventDefault();
-                console.log("enter");
+                console.log("enter", _this.state);
+                fetch("/?action=test", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: JSON.stringify({ a: 1, b: 'Textual content' })
+                })
+                    .then(function (data) { return data.json(); })
+                    .then(function (result) {
+                    console.log("result from server", result);
+                });
+            };
+            _this.changeLogin = function (event) {
+                _this.setState({ login: event.target.value });
+            };
+            _this.changePassword = function (event) {
+                _this.setState({ password: event.target.value });
+            };
+            _this.changeNickName = function (event) {
+                _this.setState({ nick: event.target.value });
             };
             _this.state = {
                 login: "",
-                passwd: "",
+                nick: "",
+                password: "",
                 register: false
             };
             return _this;
@@ -51,13 +83,13 @@ define(["require", "exports", "react"], function (require, exports, React) {
                     React.createElement("div", { className: "inputs" },
                         React.createElement("label", null,
                             "\u041D\u0438\u043A\u043D\u0435\u0439\u043C ",
-                            React.createElement("input", { type: "text" })),
+                            React.createElement("input", { onChange: this.changeNickName, type: "text" })),
                         React.createElement("label", null,
                             "\u041B\u043E\u0433\u0438\u043D ",
-                            React.createElement("input", { type: "text" })),
+                            React.createElement("input", { onChange: this.changeLogin, type: "text" })),
                         React.createElement("label", null,
                             "\u041F\u0430\u0440\u043E\u043B\u044C ",
-                            React.createElement("input", { type: "password" })),
+                            React.createElement("input", { onChange: this.changePassword, type: "password" })),
                         React.createElement("label", null,
                             "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u043F\u0430\u0440\u043E\u043B\u044C ",
                             React.createElement("input", { type: "password" })),
@@ -65,10 +97,10 @@ define(["require", "exports", "react"], function (require, exports, React) {
                     React.createElement("div", { className: "inputs" },
                         React.createElement("label", null,
                             "\u041B\u043E\u0433\u0438\u043D ",
-                            React.createElement("input", { type: "text" })),
+                            React.createElement("input", { onChange: this.changeLogin, type: "text" })),
                         React.createElement("label", null,
                             "\u041F\u0430\u0440\u043E\u043B\u044C ",
-                            React.createElement("input", { type: "password" })),
+                            React.createElement("input", { onChange: this.changePassword, type: "password" })),
                         React.createElement("input", { type: "button", className: "inputs__btn", onClick: this.onEnter, value: "\u0412\u043E\u0439\u0442\u0438" }))));
         };
         return RegistrationComponent;

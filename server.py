@@ -1,6 +1,7 @@
 # python server.py
 
-from http.server import BaseHTTPRequestHandler, HTTPServer,CGIHTTPRequestHandler # python3
+from http.server import BaseHTTPRequestHandler, HTTPServer,CGIHTTPRequestHandler # python3 
+import sqlite3
 import json
 class HandleRequests(BaseHTTPRequestHandler):
     def _set_headers_html(self):
@@ -52,11 +53,21 @@ class HandleRequests(BaseHTTPRequestHandler):
         # return result.encode()
 
     def do_POST(self):
-        '''Reads post request body'''
-        self._set_headers_html()
-        content_len = int(self.headers.getheader('content-length', 0))
+        # try:
+        # ctype, pdict = cgi.parse_header(self.headers['content-type'])
+        # fields = cgi.parse_multipart(self.rfile, pdict)
+        # pdict['boundary'] = bytes(pdict['boundary'], "utf-8")
+        
+        
+        content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
-        self.wfile.write("received post request:<br>{}".format(post_body))
+        print("\n do_POST",json.loads(post_body))
+        self.send_response(301)
+        self._set_headers_json()
+        self.wfile.write(json.dumps({'hello': 'world', 'received': 'ok'}).encode())
+        return
+        # except:
+        #     print("Something went wrong, inside exception..")
 
     def do_PUT(self):
         self.do_POST()
