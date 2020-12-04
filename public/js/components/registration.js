@@ -30,12 +30,16 @@ define(["require", "exports", "react"], function (require, exports, React) {
             _this.onReg = function (event) {
                 event.preventDefault();
                 console.log("registation", _this.state);
-                fetch("/?action=test", {
+                fetch("/?action=reg", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json;charset=utf-8'
                     },
-                    body: JSON.stringify({ a: 1, b: 'Textual content' })
+                    body: JSON.stringify({
+                        login: _this.state.login,
+                        nick: _this.state.nick,
+                        password: _this.state.password
+                    })
                 })
                     .then(function (data) { return data.json(); })
                     .then(function (result) {
@@ -70,7 +74,7 @@ define(["require", "exports", "react"], function (require, exports, React) {
                 login: "",
                 nick: "",
                 password: "",
-                register: false
+                register: true
             };
             return _this;
         }

@@ -30,16 +30,4 @@ define(["require", "exports", "react", "react-dom", "./components/registration"]
         return App;
     }(React.Component));
     ReactDOM.render(React.createElement(App, null), ROOT);
-    var arrPersons1111s1111s1111sssss1111111111 = [
-        {
-            url: "./src/images/person2.png",
-            x: 8,
-            y: 0,
-            evil: true,
-            class: "fighter",
-            damage: 1,
-            health: 50,
-            id: 3,
-        }
-    ];
 });

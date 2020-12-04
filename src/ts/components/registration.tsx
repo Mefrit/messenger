@@ -7,7 +7,7 @@ export class RegistrationComponent extends React.Component<any, any> {
             login: "",
             nick: "",
             password: "",
-            register: false
+            register: true
         };
 
     }
@@ -23,12 +23,16 @@ export class RegistrationComponent extends React.Component<any, any> {
     onReg = (event) => {
         event.preventDefault();
         console.log("registation", this.state);
-        fetch("/?action=test", {
+        fetch("/?action=reg", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
-            body: JSON.stringify({ a: 1, b: 'Textual content' })
+            body: JSON.stringify({
+                login: this.state.login,
+                nick: this.state.nick,
+                password: this.state.password
+            })
         })
             .then((data) => data.json())
             .then((result) => {
