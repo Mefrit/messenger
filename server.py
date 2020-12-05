@@ -31,7 +31,6 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        result = dict()
         self.main_server.getAllUsers()
         # print(self.path, self.path.endswith(".html"));
         # print("self.path!!!!!!!!!!!!!!!!!!!!!!!",self.path, self.path.endswith('/?action=test'))
@@ -45,14 +44,12 @@ class HandleRequests(BaseHTTPRequestHandler):
         
         if self.path.endswith(".css"):
             self._set_headers_css()
-            print(" Csss     FILEOPEN========>>>>>> ",self.path,"\n")
             f = open("." + self.path, 'rb')
             self.wfile.write(f.read())
             f.close()
             return
         else:
             self._set_headers_html()
-            print("FILEOPEN========>>>>>> ",self.path,"\n")
             f = open("." + self.path, 'rb')
           
             self.wfile.write(f.read())
@@ -90,8 +87,8 @@ def main():
 
 if __name__ == '__main__':
     PORT = 8000
-    # PATH2DB = "F:\\projects\\messenger\\public\\server\\db\\base.db"
-    PATH2DB = "D:\\Projects\\messenger\\public\\server\\db\\base.db"
+    PATH2DB = "F:\\projects\\messenger\\public\\server\\db\\base.db"
+    # PATH2DB = "D:\\Projects\\messenger\\public\\server\\db\\base.db"
     main()
 
 # from http.server import HTTPServer, CGIHTTPRequestHandler

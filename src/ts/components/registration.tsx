@@ -7,6 +7,7 @@ export class RegistrationComponent extends React.Component<any, any> {
             login: "",
             nick: "",
             password: "",
+            password_repeat: "",
             register: false,
         };
     }
@@ -21,30 +22,35 @@ export class RegistrationComponent extends React.Component<any, any> {
     onReg = (event) => {
         event.preventDefault();
         console.log("registation", this.state);
-        fetch("/?module=registration&action=Reg", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json;charset=utf-8",
-            },
-            body: JSON.stringify({
-                login: this.state.login,
-                nick: this.state.nick,
-                password: this.state.password,
-            }),
-        })
-            .then((data) => data.json())
-            .then((result) => {
-                console.log("result from server", result);
-                if (result.status == "ok") {
-                    this.props.setEnter();
-                } else {
-                    alert(result.message);
-                }
-            });
+        if (this.state.password == this.state.password_repeat) {
+            fetch("/?module=registration&action=Reg", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8",
+                },
+                body: JSON.stringify({
+                    login: this.state.login,
+                    nick: this.state.nick,
+                    password: this.state.password,
+                }),
+            })
+                .then((data) => data.json())
+                .then((result) => {
+                    console.log("result from server", result);
+                    if (result.status == "ok") {
+                        this.props.setEnter();
+                    } else {
+                        alert(result.message);
+                    }
+                });
+        } else {
+            alert("Пароли не совпадают")
+        }
     };
     onEnter = (event) => {
         event.preventDefault();
         console.log("enter", this.state);
+
         fetch("/?module=registration&action=Enter", {
             method: "POST",
             headers: {
@@ -67,6 +73,9 @@ export class RegistrationComponent extends React.Component<any, any> {
     };
     changePassword = (event) => {
         this.setState({ password: event.target.value });
+    };
+    changePasswordRepeat = (event) => {
+        this.setState({ password_repeat: event.target.value });
     };
     changeNickName = (event) => {
         this.setState({ nick: event.target.value });
@@ -113,18 +122,18 @@ export class RegistrationComponent extends React.Component<any, any> {
                         </form>
                     </div>
                 ) : (
-                    <div className="reg__inf">
-                        <form className="inputs">
-                            <label>
-                                Логин <input onChange={this.changeLogin} type="text" />
-                            </label>
-                            <label>
-                                Пароль <input onChange={this.changePassword} type="password" />
-                            </label>
-                            <input type="button" className="inputs__btn" onClick={this.onEnter} value="Войти" />
-                        </form>
-                    </div>
-                )}
+                        <div className="reg__inf">
+                            <form className="inputs">
+                                <label>
+                                    Логин <input onChange={this.changeLogin} type="text" />
+                                </label>
+                                <label>
+                                    Пароль <input onChange={this.changePassword} type="password" />
+                                </label>
+                                <input type="button" className="inputs__btn" onClick={this.onEnter} value="Войти" />
+                            </form>
+                        </div>
+                    )}
             </div>
         );
     }

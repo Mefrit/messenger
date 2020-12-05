@@ -4,42 +4,57 @@ class Module_registration:
         self.db = props["db"]
     def returnAction(self ,action, data):
         print(action,data)
-        return getattr(self, "actionReg")(self, data)
+        return getattr(self, "action" + action)(self, data)
     @staticmethod
     def actionReg(self, data):
-        print("REG")
+       
         try:
+            result = {}
             cursor = self.db.cursor()
             user_data = (data['nick'],data['login'],data['password'])
             cursor.execute("insert into Users (nick, login, password) values ( ?, ? ,? ) ",user_data)
             # Если мы не просто читаем, но и вносим изменения в базу данных - необходимо сохранить транзакцию
             self.db.commit()
-            print("\n registration",data,data['nick'],data['nick'])
+       
             self.db.close()
-            result = {}
             result["status"] = "ok"
             return result
         except:
             result = {}
-            result["message"] = "Error in adding new user"
+            result["message"] = "Ошибка при регистрации пользователя"
             result["status"] = "fail"
             return result
+    @staticmethod
     def actionEnter(self, data):
-        print("ENTER")
+    
         try:
+            result = {}
             cursor = self.db.cursor()
             print("ENTER")
             print("\n enter!!!!!!!!!!!",data,data['login'],data['password'])
-            query = """ SELECT password FROM users WhERE login = ?"""
-            cursor.execute(query,data['login'])
-            result = cursor.fetchall()
-            ptint(result)
+            query = " SELECT password FROM users WhERE login = '"+ data['login'] +"'"
+            print(query)
+            cursor.execute( query )
+            user_data = cursor.fetchall()
+        
+            if(len(user_data) != 0):
+                if(user_data[0][0] == data['password']):
+                    result["status"] = "ok"
+                    return result
+                else: 
+                    result["status"] = "fail"
+                    result["message"] = "Пароли не совпадают"
+                    return result
+            else:
+                result["status"] = "fail"
+                result["message"] = "Логин не найден"
+                return result
             self.db.close()
-            result = {}
-            result["status"] = "ok"
+        
             return result
         except:
             result = {}
-            result["message"] = "Error in enter"
             result["status"] = "fail"
+            result["message"] = "Ошибка при входе в систему"
+            
             return result
