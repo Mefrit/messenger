@@ -14,11 +14,15 @@ class App extends React.Component<any, any>{
         this.state = {
             enter: false
         };
-
+    }
+    setEnter=()=>{
+        this.setState({
+            enter:true
+        });
     }
     render() {
         return <div>
-            {this.state.enter ? <h1>You areEnter</h1> : <RegistrationComponent />}
+            {this.state.enter ? <h1>You areEnter</h1> : <RegistrationComponent setEnter={this.setEnter} />}
         </div>;
     }
 }

@@ -30,35 +30,47 @@ define(["require", "exports", "react"], function (require, exports, React) {
             _this.onReg = function (event) {
                 event.preventDefault();
                 console.log("registation", _this.state);
-                fetch("/?action=reg", {
-                    method: 'POST',
+                fetch("/?module=registration&action=Reg", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
+                        "Content-Type": "application/json;charset=utf-8",
                     },
                     body: JSON.stringify({
                         login: _this.state.login,
                         nick: _this.state.nick,
-                        password: _this.state.password
-                    })
+                        password: _this.state.password,
+                    }),
                 })
                     .then(function (data) { return data.json(); })
                     .then(function (result) {
                     console.log("result from server", result);
+                    if (result.status == "ok") {
+                        _this.props.setEnter();
+                    }
+                    else {
+                        alert(result.message);
+                    }
                 });
             };
             _this.onEnter = function (event) {
                 event.preventDefault();
                 console.log("enter", _this.state);
-                fetch("/?action=test", {
-                    method: 'POST',
+                fetch("/?module=registration&action=Enter", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
+                        "Content-Type": "application/json;charset=utf-8",
                     },
-                    body: JSON.stringify({ a: 1, b: 'Textual content' })
+                    body: JSON.stringify({ login: _this.state.login, password: _this.state.password }),
                 })
                     .then(function (data) { return data.json(); })
                     .then(function (result) {
                     console.log("result from server", result);
+                    if (result.status == "ok") {
+                        _this.props.setEnter();
+                    }
+                    else {
+                        alert(result.message);
+                    }
                 });
             };
             _this.changeLogin = function (event) {
@@ -74,17 +86,17 @@ define(["require", "exports", "react"], function (require, exports, React) {
                 login: "",
                 nick: "",
                 password: "",
-                register: true
+                register: false,
             };
             return _this;
         }
         RegistrationComponent.prototype.render = function () {
-            return React.createElement("div", { className: "reg" },
+            return (React.createElement("div", { className: "reg" },
                 React.createElement("div", { className: "reg__mode" },
                     React.createElement("a", { className: this.state.register ? "reg__showEnter " : "reg__showEnter reg__activeMode", onClick: this.showEnter }, "\u0412\u0445\u043E\u0434"),
                     React.createElement("a", { className: this.state.register ? "reg__showReg reg__activeMode" : "reg__showReg ", onClick: this.showReg }, "\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044F")),
-                this.state.register ? React.createElement("div", { className: "reg__inf" },
-                    React.createElement("div", { className: "inputs" },
+                this.state.register ? (React.createElement("div", { className: "reg__inf" },
+                    React.createElement("form", { className: "inputs" },
                         React.createElement("label", null,
                             "\u041D\u0438\u043A\u043D\u0435\u0439\u043C ",
                             React.createElement("input", { onChange: this.changeNickName, type: "text" })),
@@ -97,15 +109,15 @@ define(["require", "exports", "react"], function (require, exports, React) {
                         React.createElement("label", null,
                             "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u043F\u0430\u0440\u043E\u043B\u044C ",
                             React.createElement("input", { type: "password" })),
-                        React.createElement("input", { type: "button", className: "inputs__btn", onClick: this.onReg, value: "\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u0442\u044C\u0441\u044F" }))) : React.createElement("div", { className: "reg__inf" },
-                    React.createElement("div", { className: "inputs" },
+                        React.createElement("input", { type: "button", className: "inputs__btn", onClick: this.onReg, value: "\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u0442\u044C\u0441\u044F" })))) : (React.createElement("div", { className: "reg__inf" },
+                    React.createElement("form", { className: "inputs" },
                         React.createElement("label", null,
                             "\u041B\u043E\u0433\u0438\u043D ",
                             React.createElement("input", { onChange: this.changeLogin, type: "text" })),
                         React.createElement("label", null,
                             "\u041F\u0430\u0440\u043E\u043B\u044C ",
                             React.createElement("input", { onChange: this.changePassword, type: "password" })),
-                        React.createElement("input", { type: "button", className: "inputs__btn", onClick: this.onEnter, value: "\u0412\u043E\u0439\u0442\u0438" }))));
+                        React.createElement("input", { type: "button", className: "inputs__btn", onClick: this.onEnter, value: "\u0412\u043E\u0439\u0442\u0438" }))))));
         };
         return RegistrationComponent;
     }(React.Component));

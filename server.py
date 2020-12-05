@@ -64,26 +64,34 @@ class HandleRequests(BaseHTTPRequestHandler):
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
         data = json.loads(post_body)
-        self.getAction(data)
+      
+        conf = self.geActionRequest(self,self.path)
+        conf["data"] = data
+        answer = self.main_server.getAnswerFromComponent(conf)
         self.send_response(301)
         self._set_headers_json()
-        self.wfile.write(json.dumps({'hello': 'world', 'received': 'ok'}).encode())
+        self.wfile.write(json.dumps(answer).encode())
         return
-
-    def getAction(data):
-        print("getAction",data)
-
+    @staticmethod
+    def geActionRequest(self,path):
+        
+        result = dict()
+        cache = path.split("&")
+        result["module"] = cache[0].split("=")[1]
+        result["action"] = cache[1].split("=")[1]
+        return result
+    
+        
+# python server.py
 def main():
-    print("constructor")
-  
-    print("||||||||||||||||||||||||||||\n\n")
     server = HTTPServer(('',PORT), HandleRequests)
     print("Server runing in port %s" % PORT)
     server.serve_forever()
 
 if __name__ == '__main__':
     PORT = 8000
-    PATH2DB = "F:\\projects\\messenger\\public\\server\\db\\base.db"
+    # PATH2DB = "F:\\projects\\messenger\\public\\server\\db\\base.db"
+    PATH2DB = "D:\\Projects\\messenger\\public\\server\\db\\base.db"
     main()
 
 # from http.server import HTTPServer, CGIHTTPRequestHandler

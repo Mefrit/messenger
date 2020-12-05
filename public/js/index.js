@@ -19,13 +19,18 @@ define(["require", "exports", "react", "react-dom", "./components/registration"]
         __extends(App, _super);
         function App(props) {
             var _this = _super.call(this, props) || this;
+            _this.setEnter = function () {
+                _this.setState({
+                    enter: true
+                });
+            };
             _this.state = {
                 enter: false
             };
             return _this;
         }
         App.prototype.render = function () {
-            return React.createElement("div", null, this.state.enter ? React.createElement("h1", null, "You areEnter") : React.createElement(registration_1.RegistrationComponent, null));
+            return React.createElement("div", null, this.state.enter ? React.createElement("h1", null, "You areEnter") : React.createElement(registration_1.RegistrationComponent, { setEnter: this.setEnter }));
         };
         return App;
     }(React.Component));
