@@ -87,8 +87,9 @@ def main():
 
 if __name__ == '__main__':
     PORT = 8000
-    PATH2DB = "F:\\projects\\messenger\\public\\server\\db\\base.db"
+    # PATH2DB = "F:\\projects\\messenger\\public\\server\\db\\base.db"
     # PATH2DB = "D:\\Projects\\messenger\\public\\server\\db\\base.db"
+    PATH2DB = "base.db"
     main()
 
 # from http.server import HTTPServer, CGIHTTPRequestHandler

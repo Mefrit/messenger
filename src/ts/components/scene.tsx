@@ -1,6 +1,6 @@
 import * as React from "react";
-import { ToolsComponent } from "./tools"
-import { ChatComponent } from "./chat"
+import { ToolsComponent } from "./tools";
+import { ChatComponent } from "./chat";
 // import 'css!/../css/main.css';
 export class Scene extends React.Component<any, any> {
     constructor(props) {
@@ -10,8 +10,8 @@ export class Scene extends React.Component<any, any> {
             friends_list: [],
             id_sent: -1,
             open_dialog: false,
-            history_message: []
-        }
+            history_message: [],
+        };
     }
     componentDidMount() {
         fetch("/?module=tools&action=GetHistory", {
@@ -26,10 +26,11 @@ export class Scene extends React.Component<any, any> {
                 console.log("result from server", result);
                 if (result.status == "ok") {
                     this.setState({
-                        friends_list: result.friends_list
-                    })
+                        friends_list: result.friends_list,
+                        user_list: [],
+                    });
                 } else {
-                    alert(result.message)
+                    alert(result.message);
                 }
             });
     }
@@ -49,13 +50,13 @@ export class Scene extends React.Component<any, any> {
                     this.setState({
                         open_dialog: true,
                         id_sent: id_sent,
-                        history_message: result.history_message
-                    })
+                        history_message: result.history_message,
+                    });
                 } else {
-                    alert(result.message)
+                    alert(result.message);
                 }
             });
-    }
+    };
     sentMessage = (value) => {
         console.log("sentMessage to ", this.state.id_sent, value, " from ", this.props.id_curent_user);
         fetch("/?module=dialog&action=Sent", {
@@ -63,7 +64,11 @@ export class Scene extends React.Component<any, any> {
             headers: {
                 "Content-Type": "application/json;charset=utf-8",
             },
-            body: JSON.stringify({ id_sent: this.state.id_sent, value: value, id_curent_user: this.props.id_curent_user }),
+            body: JSON.stringify({
+                id_sent: this.state.id_sent,
+                value: value,
+                id_curent_user: this.props.id_curent_user,
+            }),
         })
             .then((data) => data.json())
             .then((result) => {
@@ -79,18 +84,22 @@ export class Scene extends React.Component<any, any> {
                 //     history_message: result.history_message
                 // })
             });
-    }
+    };
     render() {
         console.log(this.state);
-        return <div>
-            <ToolsComponent openDialog={this.openDialog} friends_list={this.state.friends_list} />
-            {this.state.open_dialog ?
-                <ChatComponent
-                    history_message={this.state.history_message}
-                    sentMessage={this.sentMessage}
-                    id_curent_user={this.props.id_curent_user}
-                /> : ""}
-
-        </div>
+        return (
+            <div>
+                <ToolsComponent openDialog={this.openDialog} friends_list={this.state.friends_list} />
+                {this.state.open_dialog ? (
+                    <ChatComponent
+                        history_message={this.state.history_message}
+                        sentMessage={this.sentMessage}
+                        id_curent_user={this.props.id_curent_user}
+                    />
+                ) : (
+                    ""
+                )}
+            </div>
+        );
     }
 }
