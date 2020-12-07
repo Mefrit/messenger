@@ -36,9 +36,9 @@ export class RegistrationComponent extends React.Component<any, any> {
             })
                 .then((data) => data.json())
                 .then((result) => {
-                    console.log("result from server", result);
+                    console.log("result from server onReg", result);
                     if (result.status == "ok") {
-                        this.props.setEnter();
+                        this.props.setEnter(result.id_curent_user);
                     } else {
                         alert(result.message);
                     }
@@ -60,9 +60,9 @@ export class RegistrationComponent extends React.Component<any, any> {
         })
             .then((data) => data.json())
             .then((result) => {
-                console.log("result from server", result);
+                console.log("result from server onEnter", result);
                 if (result.status == "ok") {
-                    this.props.setEnter();
+                    this.props.setEnter(result.id_curent_user);
                 } else {
                     alert(result.message);
                 }
@@ -111,7 +111,7 @@ export class RegistrationComponent extends React.Component<any, any> {
                                 Пароль <input onChange={this.changePassword} type="password" />
                             </label>
                             <label>
-                                Повторите пароль <input type="password" />
+                                Повторите пароль <input onChange={this.changePasswordRepeat} type="password" />
                             </label>
                             <input
                                 type="button"

@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "react", "react-dom", "./components/registration"], function (require, exports, React, ReactDOM, registration_1) {
+define(["require", "exports", "react", "react-dom", "./components/registration", "./components/scene"], function (require, exports, React, ReactDOM, registration_1, scene_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var ROOT = document.getElementById("root");
@@ -19,18 +19,20 @@ define(["require", "exports", "react", "react-dom", "./components/registration"]
         __extends(App, _super);
         function App(props) {
             var _this = _super.call(this, props) || this;
-            _this.setEnter = function () {
+            _this.setEnter = function (id_curent_user) {
                 _this.setState({
-                    enter: true
+                    enter: true,
+                    id_curent_user: id_curent_user
                 });
             };
             _this.state = {
-                enter: false
+                enter: true,
+                id_curent_user: 5
             };
             return _this;
         }
         App.prototype.render = function () {
-            return React.createElement("div", null, this.state.enter ? React.createElement("h1", null, "You areEnter") : React.createElement(registration_1.RegistrationComponent, { setEnter: this.setEnter }));
+            return React.createElement("div", null, this.state.enter ? React.createElement(scene_1.Scene, { id_curent_user: this.state.id_curent_user }) : React.createElement(registration_1.RegistrationComponent, { setEnter: this.setEnter }));
         };
         return App;
     }(React.Component));

@@ -30,27 +30,32 @@ define(["require", "exports", "react"], function (require, exports, React) {
             _this.onReg = function (event) {
                 event.preventDefault();
                 console.log("registation", _this.state);
-                fetch("/?module=registration&action=Reg", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json;charset=utf-8",
-                    },
-                    body: JSON.stringify({
-                        login: _this.state.login,
-                        nick: _this.state.nick,
-                        password: _this.state.password,
-                    }),
-                })
-                    .then(function (data) { return data.json(); })
-                    .then(function (result) {
-                    console.log("result from server", result);
-                    if (result.status == "ok") {
-                        _this.props.setEnter();
-                    }
-                    else {
-                        alert(result.message);
-                    }
-                });
+                if (_this.state.password == _this.state.password_repeat) {
+                    fetch("/?module=registration&action=Reg", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json;charset=utf-8",
+                        },
+                        body: JSON.stringify({
+                            login: _this.state.login,
+                            nick: _this.state.nick,
+                            password: _this.state.password,
+                        }),
+                    })
+                        .then(function (data) { return data.json(); })
+                        .then(function (result) {
+                        console.log("result from server onReg", result);
+                        if (result.status == "ok") {
+                            _this.props.setEnter(result.id_curent_user);
+                        }
+                        else {
+                            alert(result.message);
+                        }
+                    });
+                }
+                else {
+                    alert("Пароли не совпадают");
+                }
             };
             _this.onEnter = function (event) {
                 event.preventDefault();
@@ -64,9 +69,9 @@ define(["require", "exports", "react"], function (require, exports, React) {
                 })
                     .then(function (data) { return data.json(); })
                     .then(function (result) {
-                    console.log("result from server", result);
+                    console.log("result from server onEnter", result);
                     if (result.status == "ok") {
-                        _this.props.setEnter();
+                        _this.props.setEnter(result.id_curent_user);
                     }
                     else {
                         alert(result.message);
@@ -79,6 +84,9 @@ define(["require", "exports", "react"], function (require, exports, React) {
             _this.changePassword = function (event) {
                 _this.setState({ password: event.target.value });
             };
+            _this.changePasswordRepeat = function (event) {
+                _this.setState({ password_repeat: event.target.value });
+            };
             _this.changeNickName = function (event) {
                 _this.setState({ nick: event.target.value });
             };
@@ -86,6 +94,7 @@ define(["require", "exports", "react"], function (require, exports, React) {
                 login: "",
                 nick: "",
                 password: "",
+                password_repeat: "",
                 register: false,
             };
             return _this;
@@ -108,7 +117,7 @@ define(["require", "exports", "react"], function (require, exports, React) {
                             React.createElement("input", { onChange: this.changePassword, type: "password" })),
                         React.createElement("label", null,
                             "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u0435 \u043F\u0430\u0440\u043E\u043B\u044C ",
-                            React.createElement("input", { type: "password" })),
+                            React.createElement("input", { onChange: this.changePasswordRepeat, type: "password" })),
                         React.createElement("input", { type: "button", className: "inputs__btn", onClick: this.onReg, value: "\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u0442\u044C\u0441\u044F" })))) : (React.createElement("div", { className: "reg__inf" },
                     React.createElement("form", { className: "inputs" },
                         React.createElement("label", null,

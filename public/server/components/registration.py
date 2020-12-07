@@ -8,22 +8,36 @@ class Module_registration:
     @staticmethod
     def actionReg(self, data):
        
-        try:
-            result = {}
-            cursor = self.db.cursor()
+        # try:
+        result = {}
+        cursor = self.db.cursor()
+        query = " SELECT COUNT(*) as count FROM users WhERE login = '"+ data['login'] +"'"
+        cursor.execute( query )
+        user_data = cursor.fetchall()
+        print("\n\n\n", user_data)
+        if(user_data[0][0] == 0):
             user_data = (data['nick'],data['login'],data['password'])
-            cursor.execute("insert into Users (nick, login, password) values ( ?, ? ,? ) ",user_data)
+            cursor.execute("INSERT INTO Users (nick, login, password) VALUES ( ?, ? ,? ) ",user_data)
             # Если мы не просто читаем, но и вносим изменения в базу данных - необходимо сохранить транзакцию
             self.db.commit()
-       
+         
+            query = " SELECT id_user  FROM users WhERE login = '"+ data['login'] +"'"
+            cursor.execute( query )
+            id_user = cursor.fetchall()[0][0]
             self.db.close()
+            result["id_user"] = id_user
             result["status"] = "ok"
+
             return result
-        except:
-            result = {}
-            result["message"] = "Ошибка при регистрации пользователя"
+        else:
+            result["message"] = "Текущий логин уже существует"
             result["status"] = "fail"
             return result
+        # except:
+        #     result = {}
+        #     result["message"] = "Ошибка при регистрации пользователя"
+        #     result["status"] = "fail"
+        #     return result
     @staticmethod
     def actionEnter(self, data):
     
@@ -32,13 +46,14 @@ class Module_registration:
             cursor = self.db.cursor()
             print("ENTER")
             print("\n enter!!!!!!!!!!!",data,data['login'],data['password'])
-            query = " SELECT password FROM users WhERE login = '"+ data['login'] +"'"
+            query = " SELECT password,id_user FROM users WhERE login = '"+ data['login'] +"'"
             print(query)
             cursor.execute( query )
             user_data = cursor.fetchall()
         
             if(len(user_data) != 0):
                 if(user_data[0][0] == data['password']):
+                    result["id_curent_user"] = user_data[0][1]
                     result["status"] = "ok"
                     return result
                 else: 

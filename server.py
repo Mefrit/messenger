@@ -34,8 +34,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.main_server.getAllUsers()
         # print(self.path, self.path.endswith(".html"));
         # print("self.path!!!!!!!!!!!!!!!!!!!!!!!",self.path, self.path.endswith('/?action=test'))
-        # if self.path == '/':
-        #     self.path = "/public/index.html"
+        if self.path == '/':
+            self.path = "/public/index.html"
            
             # self._set_headers_json()
             # result["answer"] = self.path + "json"
@@ -44,7 +44,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         
         if self.path.endswith(".css"):
             self._set_headers_css()
-            f = open("." + self.path, 'rb')
+            f = open("./public/" + self.path, 'rb')
             self.wfile.write(f.read())
             f.close()
             return
