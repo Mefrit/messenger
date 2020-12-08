@@ -25,7 +25,7 @@ define(["require", "exports", "react"], function (require, exports, React) {
             _this.changeContent = function (event) {
                 event.preventDefault();
                 _this.setState({
-                    content: event.target.value
+                    content: event.target.value,
                 });
             };
             _this.state = {
@@ -37,24 +37,27 @@ define(["require", "exports", "react"], function (require, exports, React) {
             var _this = this;
             console.log("this.props.id_curent_user", this.props.id_curent_user);
             return this.props.history_message.map(function (elem) {
-                return React.createElement("div", null,
+                return (React.createElement("div", null,
                     React.createElement("h3", { key: elem[0] },
                         _this.props.id_curent_user == elem[3] ? "You" : "",
                         ":",
                         elem[0]),
-                    " time: ",
-                    elem[4]);
+                    " ",
+                    "time: ",
+                    elem[4]));
             });
         };
         ChatComponent.prototype.renderSentInterface = function () {
-            return React.createElement("div", null,
+            return (React.createElement("div", null,
                 React.createElement("input", { type: "textarea", onChange: this.changeContent, placeholder: "\u041F\u043E\u043B\u0435 \u0434\u043B\u044F \u0432\u0432\u043E\u0434\u0430" }),
-                React.createElement("input", { type: "button", onClick: this.sentMessage, value: "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C" }));
+                React.createElement("input", { type: "button", onClick: this.sentMessage, value: "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C" })));
         };
         ChatComponent.prototype.render = function () {
-            return React.createElement("div", null,
-                this.renderHistory(),
-                this.renderSentInterface());
+            return (React.createElement("div", { className: "container-chat" },
+                React.createElement("div", { className: "menu" }),
+                React.createElement("div", null,
+                    this.renderHistory(),
+                    this.renderSentInterface())));
         };
         return ChatComponent;
     }(React.Component));

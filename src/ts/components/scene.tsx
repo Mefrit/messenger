@@ -3,6 +3,7 @@ import { ToolsComponent } from "./tools";
 import { ChatComponent } from "./chat";
 // import 'css!/../css/main.css';
 export class Scene extends React.Component<any, any> {
+    interfal_dialog: any;
     constructor(props) {
         super(props);
         console.log("Scene props", props);
@@ -13,11 +14,10 @@ export class Scene extends React.Component<any, any> {
             open_dialog: false,
             history_message: [],
             nick: "",
-            users: []
+            users: [],
         };
     }
     getHistory = () => {
-
         fetch("/?module=tools&action=GetHistory", {
             method: "POST",
             headers: {
@@ -35,7 +35,7 @@ export class Scene extends React.Component<any, any> {
                     alert(result.message);
                 }
             });
-    }
+    };
     getInf() {
         fetch("/?module=tools&action=GetInf", {
             method: "POST",
@@ -46,11 +46,10 @@ export class Scene extends React.Component<any, any> {
         })
             .then((data) => data.json())
             .then((result) => {
-
                 if (result.status == "ok") {
                     this.setState({
                         nick: result.nick,
-                        users: result.users
+                        users: result.users,
                     });
                 } else {
                     alert(result.message);
@@ -58,11 +57,11 @@ export class Scene extends React.Component<any, any> {
             });
     }
     componentDidMount() {
-        this.getInf()
+        this.getInf();
         this.getHistory();
         setInterval(() => {
             this.getHistory();
-        }, 7000)
+        }, 7000);
     }
     openDialog = (id_sent) => {
         console.log(id_sent);
@@ -77,13 +76,15 @@ export class Scene extends React.Component<any, any> {
             .then((result) => {
                 console.log("result from server openDialog", result);
                 if (result.status == "ok") {
-                    clearInterval(this.interfal_dialog)
+                    clearInterval(this.interfal_dialog);
                     this.setState({
                         open_dialog: true,
                         id_sent: id_sent,
                         history_message: result.history_message,
                     });
-                    this.interfal_dialog = setInterval(() => { this.openDialog(id_sent); }, 1200)
+                    this.interfal_dialog = setInterval(() => {
+                        this.openDialog(id_sent);
+                    }, 1200);
                 } else {
                     alert(result.message);
                 }
@@ -124,7 +125,7 @@ export class Scene extends React.Component<any, any> {
                 "Content-Type": "application/json;charset=utf-8",
             },
             body: JSON.stringify({
-                nick: search_nick
+                nick: search_nick,
             }),
         })
             .then((data) => data.json())
@@ -132,7 +133,7 @@ export class Scene extends React.Component<any, any> {
                 console.log("result from server sentMessage", result);
                 if (result.status == "ok") {
                     this.setState({
-                        users: result.users
+                        users: result.users,
                     });
                 } else {
                     alert(result.message);
@@ -144,27 +145,33 @@ export class Scene extends React.Component<any, any> {
                 //     history_message: result.history_message
                 // })
             });
-    }
+    };
     render() {
-
         return (
-            <div>
-                <h1>{this.state.nick}</h1>
-                <input type="button" value="Update histoty" onClick={this.getHistory} />
+            <div className="container">
                 <ToolsComponent
                     openDialog={this.openDialog}
                     searchUser={this.searchUser}
                     users={this.state.users}
-                    friends_list={this.state.friends_list} />
-                {this.state.open_dialog ? (
+                    nick={this.state.nick}
+                    friends_list={this.state.friends_list}
+                />
+                {
+                    <ChatComponent
+                        history_message={this.state.open_dialog ? this.state.history_message : []}
+                        sentMessage={this.sentMessage}
+                        id_curent_user={this.props.id_curent_user}
+                    />
+                    /* {this.state.open_dialog ? (
                     <ChatComponent
                         history_message={this.state.history_message}
                         sentMessage={this.sentMessage}
                         id_curent_user={this.props.id_curent_user}
                     />
                 ) : (
-                        ""
-                    )}
+                    ""
+                ) */
+                }
             </div>
         );
     }

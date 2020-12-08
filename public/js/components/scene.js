@@ -58,7 +58,9 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
                             id_sent: id_sent,
                             history_message: result.history_message,
                         });
-                        _this.interfal_dialog = setInterval(function () { _this.openDialog(id_sent); }, 1200);
+                        _this.interfal_dialog = setInterval(function () {
+                            _this.openDialog(id_sent);
+                        }, 1200);
                     }
                     else {
                         alert(result.message);
@@ -93,7 +95,7 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
                         "Content-Type": "application/json;charset=utf-8",
                     },
                     body: JSON.stringify({
-                        nick: search_nick
+                        nick: search_nick,
                     }),
                 })
                     .then(function (data) { return data.json(); })
@@ -101,7 +103,7 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
                     console.log("result from server sentMessage", result);
                     if (result.status == "ok") {
                         _this.setState({
-                            users: result.users
+                            users: result.users,
                         });
                     }
                     else {
@@ -117,7 +119,7 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
                 open_dialog: false,
                 history_message: [],
                 nick: "",
-                users: []
+                users: [],
             };
             return _this;
         }
@@ -135,7 +137,7 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
                 if (result.status == "ok") {
                     _this.setState({
                         nick: result.nick,
-                        users: result.users
+                        users: result.users,
                     });
                 }
                 else {
@@ -152,11 +154,9 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
             }, 7000);
         };
         Scene.prototype.render = function () {
-            return (React.createElement("div", null,
-                React.createElement("h1", null, this.state.nick),
-                React.createElement("input", { type: "button", value: "Update histoty", onClick: this.getHistory }),
-                React.createElement(tools_1.ToolsComponent, { openDialog: this.openDialog, searchUser: this.searchUser, users: this.state.users, friends_list: this.state.friends_list }),
-                this.state.open_dialog ? (React.createElement(chat_1.ChatComponent, { history_message: this.state.history_message, sentMessage: this.sentMessage, id_curent_user: this.props.id_curent_user })) : ("")));
+            return (React.createElement("div", { className: "container" },
+                React.createElement(tools_1.ToolsComponent, { openDialog: this.openDialog, searchUser: this.searchUser, users: this.state.users, nick: this.state.nick, friends_list: this.state.friends_list }),
+                React.createElement(chat_1.ChatComponent, { history_message: this.state.open_dialog ? this.state.history_message : [], sentMessage: this.sentMessage, id_curent_user: this.props.id_curent_user })));
         };
         return Scene;
     }(React.Component));

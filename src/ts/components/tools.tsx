@@ -4,8 +4,8 @@ export class ToolsComponent extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            search_nick: ""
-        }
+            search_nick: "",
+        };
     }
     openDialog = (id_user) => {
         console.log("openDialog", id_user);
@@ -29,23 +29,22 @@ export class ToolsComponent extends React.Component<any, any> {
     }
     changeSearchNick = (event) => {
         this.setState({
-            search_nick: event.target.value
-        })
-    }
+            search_nick: event.target.value,
+        });
+    };
     searchUser = (event) => {
         event.target.value;
-        this.props.searchUser(this.state.search_nick)
-    }
+        this.props.searchUser(this.state.search_nick);
+    };
     render() {
         return (
-            <div>
+            <div className="container_tools">
                 <h3>Последние собеседники</h3>
                 <ul>{this.renderFriendsList(this.props.friends_list, true)}</ul>
                 <input type="text" placeholder="Введите никнейм пользователя" onChange={this.changeSearchNick} />
                 <input type="button" onClick={this.searchUser} value="Поиск" />
                 <h3>Список возможных собеседников</h3>
                 <ul>{this.renderFriendsList(this.props.users, false)}</ul>
-
             </div>
         );
     }

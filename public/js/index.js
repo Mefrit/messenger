@@ -26,7 +26,7 @@ define(["require", "exports", "react", "react-dom", "./components/registration",
                 });
             };
             _this.state = {
-                enter: false,
+                enter: true,
                 id_curent_user: 5,
             };
             return _this;

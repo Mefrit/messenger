@@ -25,7 +25,7 @@ define(["require", "exports", "react"], function (require, exports, React) {
             };
             _this.changeSearchNick = function (event) {
                 _this.setState({
-                    search_nick: event.target.value
+                    search_nick: event.target.value,
                 });
             };
             _this.searchUser = function (event) {
@@ -33,7 +33,7 @@ define(["require", "exports", "react"], function (require, exports, React) {
                 _this.props.searchUser(_this.state.search_nick);
             };
             _this.state = {
-                search_nick: ""
+                search_nick: "",
             };
             return _this;
         }
@@ -49,7 +49,7 @@ define(["require", "exports", "react"], function (require, exports, React) {
             });
         };
         ToolsComponent.prototype.render = function () {
-            return (React.createElement("div", null,
+            return (React.createElement("div", { className: "container_tools" },
                 React.createElement("h3", null, "\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0441\u043E\u0431\u0435\u0441\u0435\u0434\u043D\u0438\u043A\u0438"),
                 React.createElement("ul", null, this.renderFriendsList(this.props.friends_list, true)),
                 React.createElement("input", { type: "text", placeholder: "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043D\u0438\u043A\u043D\u0435\u0439\u043C \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F", onChange: this.changeSearchNick }),

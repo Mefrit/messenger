@@ -44,7 +44,7 @@ export class RegistrationComponent extends React.Component<any, any> {
                     }
                 });
         } else {
-            alert("Пароли не совпадают")
+            alert("Пароли не совпадают");
         }
     };
     onEnter = (event) => {
@@ -82,58 +82,75 @@ export class RegistrationComponent extends React.Component<any, any> {
     };
     render() {
         return (
-            <div className="reg">
-                <div className="reg__mode">
-                    <a
-                        className={this.state.register ? "reg__showEnter " : "reg__showEnter reg__activeMode"}
-                        onClick={this.showEnter}
-                    >
-                        Вход
-                    </a>
-                    <a
-                        className={this.state.register ? "reg__showReg reg__activeMode" : "reg__showReg "}
-                        onClick={this.showReg}
-                    >
-                        Регистрация
-                    </a>
-                </div>
-
-                {this.state.register ? (
-                    <div className="reg__inf">
-                        <form className="inputs">
-                            <label>
-                                Никнейм <input onChange={this.changeNickName} type="text" />
-                            </label>
-                            <label>
-                                Логин <input onChange={this.changeLogin} type="text" />
-                            </label>
-                            <label>
-                                Пароль <input onChange={this.changePassword} type="password" />
-                            </label>
-                            <label>
-                                Повторите пароль <input onChange={this.changePasswordRepeat} type="password" />
-                            </label>
-                            <input
-                                type="button"
-                                className="inputs__btn"
-                                onClick={this.onReg}
-                                value="Зарегистрироваться"
-                            />
-                        </form>
+            <div className="container-registration">
+                <div className="reg">
+                    <div className="reg__mode">
+                        <a
+                            className={this.state.register ? "reg__showEnter " : "reg__showEnter reg__activeMode"}
+                            onClick={this.showEnter}
+                        >
+                            Вход
+                        </a>
+                        <a
+                            className={this.state.register ? "reg__showReg reg__activeMode" : "reg__showReg "}
+                            onClick={this.showReg}
+                        >
+                            Регистрация
+                        </a>
                     </div>
-                ) : (
+
+                    {this.state.register ? (
                         <div className="reg__inf">
                             <form className="inputs">
                                 <label>
-                                    Логин <input onChange={this.changeLogin} type="text" />
+                                    <span className="inputs__label"> Никнейм</span>{" "}
+                                    <input className="btn btn-text" onChange={this.changeNickName} type="text" />
                                 </label>
                                 <label>
-                                    Пароль <input onChange={this.changePassword} type="password" />
+                                    <span className="inputs__label">Логин</span>{" "}
+                                    <input className="btn btn-text" onChange={this.changeLogin} type="text" />
                                 </label>
-                                <input type="button" className="inputs__btn" onClick={this.onEnter} value="Войти" />
+                                <label>
+                                    <span className="inputs__label">Пароль</span>{" "}
+                                    <input className="btn btn-text" onChange={this.changePassword} type="password" />
+                                </label>
+                                <label>
+                                    <span className="inputs__label">Повторите пароль</span>{" "}
+                                    <input
+                                        className="btn btn-text"
+                                        onChange={this.changePasswordRepeat}
+                                        type="password"
+                                    />
+                                </label>
+                                <input
+                                    type="button"
+                                    className="inputs__reg-btn btn btn-primal"
+                                    onClick={this.onReg}
+                                    value="Зарегистрироваться"
+                                />
+                            </form>
+                        </div>
+                    ) : (
+                        <div className="reg__inf">
+                            <form className="inputs">
+                                <label>
+                                    <span className="inputs__label">Логин</span>{" "}
+                                    <input className="btn btn-text" onChange={this.changeLogin} type="text" />
+                                </label>
+                                <label>
+                                    <span className="inputs__label">Пароль</span>{" "}
+                                    <input className="btn btn-text" onChange={this.changePassword} type="password" />
+                                </label>
+                                <input
+                                    type="button"
+                                    className="inputs__reg-btn btn btn-primal"
+                                    onClick={this.onEnter}
+                                    value="Войти"
+                                />
                             </form>
                         </div>
                     )}
+                </div>
             </div>
         );
     }

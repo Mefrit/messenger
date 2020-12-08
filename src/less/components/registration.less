@@ -1,3 +1,8 @@
+
+@pink:#eeeeee;
+@white:#fff;
+@main_blue :#3f5062;
+@import url('./inputs.css');
 .reg{
  
     display: -webkit-flex; 
@@ -12,14 +17,36 @@
       
     }
     &__mode{
-
+        
+    }
+    &__showEnter, &__showReg {
+        padding: 6px 12px;
+        margin-bottom: -3px;
+        float: left;
+        z-index: 99;
+        min-width: 175px;
+        text-align: center;
+        border-bottom: 1px solid @main_blue;
     }
   
     &__activeMode{
-        background-color: #cecece;
+        background-color: @white;
+        border: 1px solid @main_blue;
+        border-bottom: 3px solid @white;
+        border-radius: 10px 10px 0px 0px;
+        // background-color: re;
+
     }
     &__inf{
+        padding:20px 30px;
+        background-color: @white;
         
+        border: 1px solid @main_blue;
+        border-top: 1px solid @white;
+        width: 350px;
+        max-width: 450px;
+        min-height: 320px;
+        border-radius: 0px 0px 10px 10px;
     }
 }
 .inputs{
@@ -30,4 +57,12 @@
         width: auto;
         max-width: 150px;
     }
+}
+.container-registration{
+    background-color: @pink;
+    display: flex;
+    justify-content:center;
+    align-self:center;
+    align-items:center;
+    min-height:100vh;
 }
