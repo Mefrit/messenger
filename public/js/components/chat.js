@@ -37,7 +37,6 @@ define(["require", "exports", "react"], function (require, exports, React) {
             var _this = this;
             console.log("this.props.id_curent_user", this.props.id_curent_user);
             return this.props.history_message.map(function (elem) {
-                console.log(elem);
                 return React.createElement("div", null,
                     React.createElement("h3", { key: elem[0] },
                         _this.props.id_curent_user == elem[3] ? "You" : "",

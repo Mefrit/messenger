@@ -10,7 +10,7 @@ export class ChatComponent extends React.Component<any, any> {
     renderHistory() {
         console.log("this.props.id_curent_user", this.props.id_curent_user)
         return this.props.history_message.map(elem => {
-            console.log(elem);
+
             return <div><h3 key={elem[0]}>{this.props.id_curent_user == elem[3] ? "You" : ""}:{elem[0]}</h3> time: {elem[4]}</div>
         });
     }

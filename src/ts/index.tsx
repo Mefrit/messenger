@@ -13,7 +13,7 @@ class App extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            enter: true,
+            enter: false,
             id_curent_user: 5,
         };
     }
@@ -29,8 +29,8 @@ class App extends React.Component<any, any> {
                 {this.state.enter ? (
                     <Scene id_curent_user={this.state.id_curent_user} />
                 ) : (
-                    <RegistrationComponent setEnter={this.setEnter} />
-                )}
+                        <RegistrationComponent setEnter={this.setEnter} />
+                    )}
             </div>
         );
     }

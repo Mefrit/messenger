@@ -23,7 +23,7 @@ class Module_dialog:
         else:
             id_message = ",".join([str(i[0]) for i in cache_id_messages])
             query = """ SELECT t1.value, t1.id_message, t2.id_sent, t2.id_owner, t2.date FROM messages t1 
-            JOIN message_access t2 ON t1.id_message = t2.id_message WHERE t1.id_message IN ( %s ) """ % (id_message)
+            JOIN message_access t2 ON t1.id_message = t2.id_message WHERE t1.id_message IN ( %s )  """ % (id_message)
             print("\n\n",query, "\n\n")
             cursor.execute(query)
             history_message = cursor.fetchall()
