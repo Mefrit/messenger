@@ -2,6 +2,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer,CGIHTTPRequestHandler
 from public.server.main import Server 
 import os
 import json
+
+ON_HEROKU = os.environ.get('ON_HEROKU')
 class HandleRequests(BaseHTTPRequestHandler):
     def __init__(self, *args, directory=None, **kwargs):
         if directory is None:
@@ -26,7 +28,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        self.main_server.getAllUsers()
+     
         if self.path == '/':
             self.path = "/public/index.html"
         
@@ -70,6 +72,11 @@ def main():
     server.serve_forever()
 
 if __name__ == '__main__':
-    PORT = 8000
+    
+    if ON_HEROKU:
+        # get the heroku port
+        PORT = int(os.environ.get('PORT', 17995))  # as per OP comments default is 17995
+    else: 
+        PORT = 8000
     PATH2DB = "base.db"
     main()

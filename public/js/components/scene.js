@@ -58,11 +58,11 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
                             open_dialog: true,
                             id_sent: id_sent,
                             history_message: result.history_message,
-                            nick_interlocutor: nick_interlocutor
+                            nick_interlocutor: nick_interlocutor,
                         });
                         _this.interfal_dialog = setInterval(function () {
                             _this.openDialog(id_sent, nick_interlocutor);
-                        }, 2000);
+                        }, 3000);
                     }
                     else {
                         alert(result.message);
@@ -70,7 +70,6 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
                 });
             };
             _this.sentMessage = function (value) {
-                console.log("sentMessage to ", _this.state.id_sent, value, " from ", _this.props.id_curent_user);
                 fetch("/?module=dialog&action=Sent", {
                     method: "POST",
                     headers: {
@@ -88,10 +87,13 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
                     if (result.status == "ok") {
                         _this.openDialog(_this.state.id_sent, _this.state.nick_interlocutor);
                     }
+                    else {
+                        alert(result.message);
+                    }
                 });
             };
             _this.searchUser = function (search_nick) {
-                if (search_nick == "")
+                if (search_nick != "") {
                     fetch("/?module=tools&action=Search", {
                         method: "POST",
                         headers: {
@@ -113,6 +115,7 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
                             alert(result.message);
                         }
                     });
+                }
             };
             _this.interfal_dialog;
             _this.state = {
@@ -128,7 +131,6 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
         }
         Scene.prototype.getInf = function () {
             var _this = this;
-            alert(this.props.id_curent_user);
             fetch("/?module=tools&action=GetInf", {
                 method: "POST",
                 headers: {
@@ -150,7 +152,15 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
             });
         };
         Scene.prototype.componentDidMount = function () {
+            var _this = this;
             this.getInf();
+            this.getHistory();
+            setInterval(function () {
+                _this.getHistory();
+            }, 8000);
+            setInterval(function () {
+                _this.getInf();
+            }, 20000);
         };
         Scene.prototype.render = function () {
             return (React.createElement("div", { className: "container" },

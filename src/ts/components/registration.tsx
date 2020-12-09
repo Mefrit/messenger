@@ -1,6 +1,15 @@
 import * as React from "react";
-// import 'css!/../css/main.css';
-export class RegistrationComponent extends React.Component<any, any> {
+interface registrationProps {
+    setEnter: (id: number) => void;
+}
+interface registrationState {
+    login: string;
+    nick: string;
+    password: string;
+    password_repeat: string;
+    register: boolean;
+}
+export class RegistrationComponent extends React.Component<registrationProps, registrationState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,7 +30,6 @@ export class RegistrationComponent extends React.Component<any, any> {
     };
     onReg = (event) => {
         event.preventDefault();
-        console.log("registation", this.state);
         if (this.state.password == this.state.password_repeat) {
             fetch("/?module=registration&action=Reg", {
                 method: "POST",
@@ -49,8 +57,6 @@ export class RegistrationComponent extends React.Component<any, any> {
     };
     onEnter = (event) => {
         event.preventDefault();
-        console.log("enter", this.state);
-
         fetch("/?module=registration&action=Enter", {
             method: "POST",
             headers: {
@@ -124,7 +130,7 @@ export class RegistrationComponent extends React.Component<any, any> {
                                 </label>
                                 <input
                                     type="button"
-                                    className="inputs__reg-btn btn btn-primal"
+                                    className="inputs__reg-btn btn btn-primal   "
                                     onClick={this.onReg}
                                     value="Зарегистрироваться"
                                 />

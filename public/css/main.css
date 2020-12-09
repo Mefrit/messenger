@@ -1,6 +1,7 @@
 @import url('./components/registration.css');
 @import url('./components/tools.css');
 @import url('./components/chat.css');
+@import url('./components/modal.css');
 * {
   font-family: Comic Sans MS, Arial, Helvetica, sans-serif;
   box-sizing: border-box;

@@ -1,8 +1,19 @@
 import * as React from "react";
 import { ToolsComponent } from "./tools";
 import { ChatComponent } from "./chat";
-// import 'css!/../css/main.css';
-export class Scene extends React.Component<any, any> {
+interface sceneProps {
+    id_curent_user: number;
+}
+interface sceneState {
+    friends_list: any[];
+    id_sent: number;
+    open_dialog: boolean;
+    history_message: any[];
+    nick: string;
+    nick_interlocutor: string;
+    users: any;
+}
+export class Scene extends React.Component<sceneProps, sceneState> {
     interfal_dialog: any;
     constructor(props) {
         super(props);
@@ -16,7 +27,6 @@ export class Scene extends React.Component<any, any> {
             nick: "",
             nick_interlocutor: "",
             users: [],
-
         };
     }
     getHistory = () => {
@@ -30,7 +40,7 @@ export class Scene extends React.Component<any, any> {
             .then((data) => data.json())
             .then((result) => {
                 if (result.status == "ok") {
-                    console.log(result.friends_list)
+                    console.log(result.friends_list);
                     this.setState({
                         friends_list: result.friends_list,
                     });
@@ -40,10 +50,6 @@ export class Scene extends React.Component<any, any> {
             });
     };
     getInf() {
-        // let id_history = this.state.friends_list.map(elem => {
-        //     return elem[0];
-        // })
-        alert(this.props.id_curent_user)
         fetch("/?module=tools&action=GetInf", {
             method: "POST",
             headers: {
@@ -65,13 +71,14 @@ export class Scene extends React.Component<any, any> {
     }
     componentDidMount() {
         this.getInf();
-        // this.getHistory();
+        this.getHistory();
 
-        // setInterval(() => {
-
-        //     this.getHistory();
-
-        // }, 7000);
+        setInterval(() => {
+            this.getHistory();
+        }, 8000);
+        setInterval(() => {
+            this.getInf();
+        }, 20000);
     }
     openDialog = (id_sent, nick_interlocutor) => {
         console.log(id_sent);
@@ -91,18 +98,17 @@ export class Scene extends React.Component<any, any> {
                         open_dialog: true,
                         id_sent: id_sent,
                         history_message: result.history_message,
-                        nick_interlocutor: nick_interlocutor
+                        nick_interlocutor: nick_interlocutor,
                     });
                     this.interfal_dialog = setInterval(() => {
                         this.openDialog(id_sent, nick_interlocutor);
-                    }, 2000);
+                    }, 3000);
                 } else {
                     alert(result.message);
                 }
             });
     };
     sentMessage = (value) => {
-        console.log("sentMessage to ", this.state.id_sent, value, " from ", this.props.id_curent_user);
         fetch("/?module=dialog&action=Sent", {
             method: "POST",
             headers: {
@@ -120,18 +126,13 @@ export class Scene extends React.Component<any, any> {
                 if (result.status == "ok") {
                     //сообщение что успешно все отправлено
                     this.openDialog(this.state.id_sent, this.state.nick_interlocutor);
+                } else {
+                    alert(result.message);
                 }
-                // this.openDialog(this.state.id_sent)
-                // this.setState({
-                //     open_dialog: true,
-                //     id_sent: id_sent,
-                //     history_message: result.history_message
-                // })
             });
     };
     searchUser = (search_nick) => {
-        if (search_nick == "")
-
+        if (search_nick != "") {
             fetch("/?module=tools&action=Search", {
                 method: "POST",
                 headers: {
@@ -151,13 +152,8 @@ export class Scene extends React.Component<any, any> {
                     } else {
                         alert(result.message);
                     }
-                    // this.openDialog(this.state.id_sent)
-                    // this.setState({
-                    //     open_dialog: true,
-                    //     id_sent: id_sent,
-                    //     history_message: result.history_message
-                    // })
                 });
+        }
     };
     render() {
         return (
@@ -178,15 +174,6 @@ export class Scene extends React.Component<any, any> {
                         id_curent_user={this.props.id_curent_user}
                         nick_interlocutor={this.state.nick_interlocutor}
                     />
-                    /* {this.state.open_dialog ? (
-                    <ChatComponent
-                        history_message={this.state.history_message}
-                        sentMessage={this.sentMessage}
-                        id_curent_user={this.props.id_curent_user}
-                    />
-                ) : (
-                    ""
-                ) */
                 }
             </div>
         );

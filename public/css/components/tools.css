@@ -40,6 +40,7 @@
 }
 .tools__label {
   margin: 5px 0px ;
+  font-weight: 500;
 }
 .tools__nick {
   color: #3f5062;

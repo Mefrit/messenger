@@ -4,12 +4,17 @@
 @gray:#ccc;
 .chat{
     display: flex;
-     flex-direction: column;
-     justify-content:space-between;
+    flex-direction: column;
+    justify-content:space-between;
     background-color: @chat-white;
     width: 100%;
     padding: 10px;
     border-left:1px  solid @gray;
+    &__logo{
+        color: @gray;
+        text-align: center;
+        padding-left:20px ;
+    }
 }
 .interlocutor-inf{
     display: flex;
@@ -54,6 +59,7 @@
     }
     &__content{
         margin: 5px 0px;
+        font-weight: 400;
     }
 }
 .sent-interface{
@@ -66,5 +72,6 @@
     &__image-sent{
         width: 40px;
         margin-left:40px;
+        cursor: pointer;
     }
 }
