@@ -1,5 +1,102 @@
+@main_blue :#3f5062;
+@red:#fb493f;
+@gray-white:#fafafa;
+@gray:#ccc;
 .container_tools{
     display: flex;
-    
+    min-height:100%;
+    flex-direction: row;
+}
+.menu{
+    flex-grow: 1;
+    display: flex;
+      
     flex-direction: column;
+    background-color:@main_blue ;
+    justify-content: space-between;
+    &__logo{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    &__logo-image{
+        max-width:90px;
+        padding-left:5px;
+        padding-top:30px;
+        &_small{
+            max-width:70px;
+            padding-left:30px;
+        }
+    }
+    &__logo-title{
+        font-family:"Courier New", Courier, monospace;
+        color: white;
+        font-style: italic;
+        padding-left:10px;
+        padding-top:10px;
+        font-size: 1.2em;
+        
+    }
+}
+.tools{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    // min-width: 400px;
+    &__label{
+        margin:5px 0px ;
+    }
+    &__nick{
+        color:@main_blue ;
+        text-decoration: underline;
+        margin:5px 0px;
+    }
+}
+.dialog:hover{
+  
+    box-shadow: 0px 0px 1px @main_blue;
+}
+.dialog{
+    background-color:white;
+    padding: 10px 5px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+    border: 1px solid @gray;
+    align-items:center;
+    cursor: pointer;
+    // justify-content: space-evenly;
+    &__image-profile{
+        max-width:30px;
+        padding-left: 5px;
+        // padding-right: 30px;
+    }
+    &_active{
+        background-color: @main_blue;
+        color:@gray-white ;
+    }
+    &__numb-message{
+        background-color: @red;
+        width:18px;
+        text-align: center;
+        border-radius: 10px;
+        font-size: 0.8em;
+        margin-top:-15px;
+        margin-left: 10px;
+    }
+    &__author{
+        padding-left: 10px;
+    }
+}
+.dialog-container{
+    overflow: auto;
+    padding: 10px;
+}
+.search-user{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 30px;
 }

@@ -13,8 +13,8 @@ class App extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            enter: true,
-            id_curent_user: 5,
+            enter: false,
+            id_curent_user: 4,
         };
     }
     setEnter = (id_curent_user) => {
@@ -25,12 +25,12 @@ class App extends React.Component<any, any> {
     };
     render() {
         return (
-            <div>
+            <div className="container">
                 {this.state.enter ? (
                     <Scene id_curent_user={this.state.id_curent_user} />
                 ) : (
-                    <RegistrationComponent setEnter={this.setEnter} />
-                )}
+                        <RegistrationComponent setEnter={this.setEnter} />
+                    )}
             </div>
         );
     }

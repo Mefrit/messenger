@@ -7,7 +7,8 @@ class Module_tools:
     def actionSearch(self,data):
         result = {}
         cursor = self.db.cursor()
-        query = "SELECT id_user, nick FROM users WHERE nick LIKE '%" + data["nick"] + "%' " 
+        # query = "SELECT id_user, nick FROM users WHERE nick LIKE '%" + data["nick"] + "%' " 
+        query = """ SELECT id_owner FROM message_access WHERE id_sent = 5 GROUP BY id_owner """
         print("\n\n",query)
         cursor.execute( query )
         answer = cursor.fetchall()
@@ -21,15 +22,26 @@ class Module_tools:
          # try:
         result = {}
         cursor = self.db.cursor()
-        query = """SELECT nick FROM users WHERE id_user = %s""" % (data["id_curent_user"])
+        query = """SELECT  nick FROM users WHERE id_user = %s""" % (data["id_curent_user"])
         cursor.execute( query )
-       
-        answer = cursor.fetchall()
-        result["nick"] = answer[0]
-        query = """SELECT id_user,nick FROM users ORDER BY id_user LIMIT 7""" 
+        curent_user = cursor.fetchall()
+     
+        result["nick"] = curent_user[0]
+        # message_access t2 ON t2.id_sent != %s  GROUP BY t2.id_owner   
+        # query = """SELECT id_user,nick FROM users WHERE id NOT IN (%s) ORDER BY id_user LIMIT 7""" %(data["id_history"])
+        query = """SELECT id_owner FROM message_access WHERE id_sent = %s OR id_owner = %s GROUP BY id_owner  """ %(data["id_curent_user"],data["id_curent_user"])
         cursor.execute( query )
-       
+        id_sent = []
+        id_sent = cursor.fetchall()
+        print("id_sent=======>>>>>>>>>> \n",id_sent)
+        id_sent = ",".join([str(i[0]) for i in  id_sent])
+        query = """ SELECT t1.id_user, t1.nick FROM users t1 WHERE t1.id_user NOT IN (%s) AND t1.id_user != %s 
+        GROUP BY t1.id_user ORDER BY  t1.id_user DESC  """ %(id_sent,data["id_curent_user"])
+        print(query,'=========\n\n\n\n\n\n')
+        cursor.execute( query )
         answer = cursor.fetchall()
+      
+        print("curent_user----------------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>\n\n",curent_user,answer,"\n\n\n\n\n\n\n\n")
         result["users"] = answer
         result["status"] = "ok"
         
@@ -47,9 +59,9 @@ class Module_tools:
         cursor = self.db.cursor()
 
         query = """SELECT t2.id_user, t2.nick FROM message_access t1
-        JOIN users t2 ON t2.id_user = t1.id_owner OR t2.id_user = t1.id_sent   WHERE id_sent = %s OR 
-        (t1.date_read IS NULL) 
-        GROUP BY t2.id_user  ORDER BY t1.id_link DESC""" % (data['id_curent_user'])
+        JOIN users t2 ON t2.id_user = t1.id_owner OR t2.id_user = t1.id_sent WHERE t1.id_sent = %s OR 
+        t1.id_owner = %s 
+        GROUP BY t2.id_user  ORDER BY t1.id_link DESC""" % (data['id_curent_user'],data['id_curent_user'])
         # query = """SELECT t1.id_owner, t2.nick FROM message_access t1
         # JOIN users t2 ON t2.id_user = t1.id_owner WHERE id_sent = %s OR t1.id_owner =  %s
         # GROUP BY id_owner""" % (data['id_curent_user'],data['id_curent_user'])

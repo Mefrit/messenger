@@ -1,3 +1,4 @@
+import time
 class Module_registration:
     def __init__(self,props):
         print("Module_registration\n",props)
@@ -20,10 +21,16 @@ class Module_registration:
             cursor.execute("INSERT INTO Users (nick, login, password) VALUES ( ?, ? ,? ) ",user_data)
             # Если мы не просто читаем, но и вносим изменения в базу данных - необходимо сохранить транзакцию
             self.db.commit()
+            
          
+            # Если мы не просто читаем, но и вносим изменения в базу данных - необходимо сохранить транзакцию
+            self.db.commit()
             query = " SELECT id_user  FROM users WhERE login = '"+ data['login'] +"'"
             cursor.execute( query )
             id_user = cursor.fetchall()[0][0]
+            curent_user_message = (-1, id_user, time.time(), id_user)
+            cursor.execute("INSERT INTO message_access (id_message, id_sent, date, id_owner) VALUES ( ?, ? ,? ) ",curent_user_message)
+            self.db.commit()
             self.db.close()
             result["id_user"] = id_user
             result["status"] = "ok"

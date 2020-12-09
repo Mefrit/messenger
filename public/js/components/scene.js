@@ -30,6 +30,7 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
                     .then(function (data) { return data.json(); })
                     .then(function (result) {
                     if (result.status == "ok") {
+                        console.log(result.friends_list);
                         _this.setState({
                             friends_list: result.friends_list,
                         });
@@ -39,7 +40,7 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
                     }
                 });
             };
-            _this.openDialog = function (id_sent) {
+            _this.openDialog = function (id_sent, nick_interlocutor) {
                 console.log(id_sent);
                 fetch("/?module=dialog&action=Open", {
                     method: "POST",
@@ -57,10 +58,11 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
                             open_dialog: true,
                             id_sent: id_sent,
                             history_message: result.history_message,
+                            nick_interlocutor: nick_interlocutor
                         });
                         _this.interfal_dialog = setInterval(function () {
-                            _this.openDialog(id_sent);
-                        }, 1200);
+                            _this.openDialog(id_sent, nick_interlocutor);
+                        }, 2000);
                     }
                     else {
                         alert(result.message);
@@ -84,34 +86,34 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
                     .then(function (result) {
                     console.log("result from server sentMessage", result);
                     if (result.status == "ok") {
-                        _this.openDialog(_this.state.id_sent);
+                        _this.openDialog(_this.state.id_sent, _this.state.nick_interlocutor);
                     }
                 });
             };
             _this.searchUser = function (search_nick) {
-                fetch("/?module=tools&action=Search", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json;charset=utf-8",
-                    },
-                    body: JSON.stringify({
-                        nick: search_nick,
-                    }),
-                })
-                    .then(function (data) { return data.json(); })
-                    .then(function (result) {
-                    console.log("result from server sentMessage", result);
-                    if (result.status == "ok") {
-                        _this.setState({
-                            users: result.users,
-                        });
-                    }
-                    else {
-                        alert(result.message);
-                    }
-                });
+                if (search_nick == "")
+                    fetch("/?module=tools&action=Search", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json;charset=utf-8",
+                        },
+                        body: JSON.stringify({
+                            nick: search_nick,
+                        }),
+                    })
+                        .then(function (data) { return data.json(); })
+                        .then(function (result) {
+                        console.log("result from server sentMessage", result);
+                        if (result.status == "ok") {
+                            _this.setState({
+                                users: result.users,
+                            });
+                        }
+                        else {
+                            alert(result.message);
+                        }
+                    });
             };
-            console.log("Scene props", props);
             _this.interfal_dialog;
             _this.state = {
                 friends_list: [],
@@ -119,12 +121,14 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
                 open_dialog: false,
                 history_message: [],
                 nick: "",
+                nick_interlocutor: "",
                 users: [],
             };
             return _this;
         }
         Scene.prototype.getInf = function () {
             var _this = this;
+            alert(this.props.id_curent_user);
             fetch("/?module=tools&action=GetInf", {
                 method: "POST",
                 headers: {
@@ -146,17 +150,12 @@ define(["require", "exports", "react", "./tools", "./chat"], function (require, 
             });
         };
         Scene.prototype.componentDidMount = function () {
-            var _this = this;
             this.getInf();
-            this.getHistory();
-            setInterval(function () {
-                _this.getHistory();
-            }, 7000);
         };
         Scene.prototype.render = function () {
             return (React.createElement("div", { className: "container" },
-                React.createElement(tools_1.ToolsComponent, { openDialog: this.openDialog, searchUser: this.searchUser, users: this.state.users, nick: this.state.nick, friends_list: this.state.friends_list }),
-                React.createElement(chat_1.ChatComponent, { history_message: this.state.open_dialog ? this.state.history_message : [], sentMessage: this.sentMessage, id_curent_user: this.props.id_curent_user })));
+                React.createElement(tools_1.ToolsComponent, { openDialog: this.openDialog, searchUser: this.searchUser, users: this.state.users, nick: this.state.nick, friends_list: this.state.friends_list, id_sent: this.state.id_sent, id_curent_user: this.props.id_curent_user }),
+                React.createElement(chat_1.ChatComponent, { history_message: this.state.open_dialog ? this.state.history_message : [], sentMessage: this.sentMessage, id_curent_user: this.props.id_curent_user, nick_interlocutor: this.state.nick_interlocutor })));
         };
         return Scene;
     }(React.Component));

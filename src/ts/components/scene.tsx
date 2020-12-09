@@ -6,7 +6,7 @@ export class Scene extends React.Component<any, any> {
     interfal_dialog: any;
     constructor(props) {
         super(props);
-        console.log("Scene props", props);
+
         this.interfal_dialog;
         this.state = {
             friends_list: [],
@@ -14,7 +14,9 @@ export class Scene extends React.Component<any, any> {
             open_dialog: false,
             history_message: [],
             nick: "",
+            nick_interlocutor: "",
             users: [],
+
         };
     }
     getHistory = () => {
@@ -28,6 +30,7 @@ export class Scene extends React.Component<any, any> {
             .then((data) => data.json())
             .then((result) => {
                 if (result.status == "ok") {
+                    console.log(result.friends_list)
                     this.setState({
                         friends_list: result.friends_list,
                     });
@@ -37,6 +40,10 @@ export class Scene extends React.Component<any, any> {
             });
     };
     getInf() {
+        // let id_history = this.state.friends_list.map(elem => {
+        //     return elem[0];
+        // })
+        alert(this.props.id_curent_user)
         fetch("/?module=tools&action=GetInf", {
             method: "POST",
             headers: {
@@ -58,12 +65,15 @@ export class Scene extends React.Component<any, any> {
     }
     componentDidMount() {
         this.getInf();
-        this.getHistory();
-        setInterval(() => {
-            this.getHistory();
-        }, 7000);
+        // this.getHistory();
+
+        // setInterval(() => {
+
+        //     this.getHistory();
+
+        // }, 7000);
     }
-    openDialog = (id_sent) => {
+    openDialog = (id_sent, nick_interlocutor) => {
         console.log(id_sent);
         fetch("/?module=dialog&action=Open", {
             method: "POST",
@@ -81,10 +91,11 @@ export class Scene extends React.Component<any, any> {
                         open_dialog: true,
                         id_sent: id_sent,
                         history_message: result.history_message,
+                        nick_interlocutor: nick_interlocutor
                     });
                     this.interfal_dialog = setInterval(() => {
-                        this.openDialog(id_sent);
-                    }, 1200);
+                        this.openDialog(id_sent, nick_interlocutor);
+                    }, 2000);
                 } else {
                     alert(result.message);
                 }
@@ -108,7 +119,7 @@ export class Scene extends React.Component<any, any> {
                 console.log("result from server sentMessage", result);
                 if (result.status == "ok") {
                     //сообщение что успешно все отправлено
-                    this.openDialog(this.state.id_sent);
+                    this.openDialog(this.state.id_sent, this.state.nick_interlocutor);
                 }
                 // this.openDialog(this.state.id_sent)
                 // this.setState({
@@ -119,32 +130,34 @@ export class Scene extends React.Component<any, any> {
             });
     };
     searchUser = (search_nick) => {
-        fetch("/?module=tools&action=Search", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json;charset=utf-8",
-            },
-            body: JSON.stringify({
-                nick: search_nick,
-            }),
-        })
-            .then((data) => data.json())
-            .then((result) => {
-                console.log("result from server sentMessage", result);
-                if (result.status == "ok") {
-                    this.setState({
-                        users: result.users,
-                    });
-                } else {
-                    alert(result.message);
-                }
-                // this.openDialog(this.state.id_sent)
-                // this.setState({
-                //     open_dialog: true,
-                //     id_sent: id_sent,
-                //     history_message: result.history_message
-                // })
-            });
+        if (search_nick == "")
+
+            fetch("/?module=tools&action=Search", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8",
+                },
+                body: JSON.stringify({
+                    nick: search_nick,
+                }),
+            })
+                .then((data) => data.json())
+                .then((result) => {
+                    console.log("result from server sentMessage", result);
+                    if (result.status == "ok") {
+                        this.setState({
+                            users: result.users,
+                        });
+                    } else {
+                        alert(result.message);
+                    }
+                    // this.openDialog(this.state.id_sent)
+                    // this.setState({
+                    //     open_dialog: true,
+                    //     id_sent: id_sent,
+                    //     history_message: result.history_message
+                    // })
+                });
     };
     render() {
         return (
@@ -155,12 +168,15 @@ export class Scene extends React.Component<any, any> {
                     users={this.state.users}
                     nick={this.state.nick}
                     friends_list={this.state.friends_list}
+                    id_sent={this.state.id_sent}
+                    id_curent_user={this.props.id_curent_user}
                 />
                 {
                     <ChatComponent
                         history_message={this.state.open_dialog ? this.state.history_message : []}
                         sentMessage={this.sentMessage}
                         id_curent_user={this.props.id_curent_user}
+                        nick_interlocutor={this.state.nick_interlocutor}
                     />
                     /* {this.state.open_dialog ? (
                     <ChatComponent

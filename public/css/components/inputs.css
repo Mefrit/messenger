@@ -24,6 +24,16 @@
   border: 0px solid #3f5062;
   border-bottom: 1px solid #3f5062;
 }
+.btn-textarea:focus {
+  outline: none;
+}
+.btn-textarea {
+  border: 0.5px solid #ccc;
+  width: 60%;
+  max-width: 60%;
+  min-width: 60%;
+  max-height: 80px ;
+}
 .btn-text:focus {
   outline: none;
 }

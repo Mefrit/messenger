@@ -26,13 +26,13 @@ define(["require", "exports", "react", "react-dom", "./components/registration",
                 });
             };
             _this.state = {
-                enter: true,
-                id_curent_user: 5,
+                enter: false,
+                id_curent_user: 4,
             };
             return _this;
         }
         App.prototype.render = function () {
-            return (React.createElement("div", null, this.state.enter ? (React.createElement(scene_1.Scene, { id_curent_user: this.state.id_curent_user })) : (React.createElement(registration_1.RegistrationComponent, { setEnter: this.setEnter }))));
+            return (React.createElement("div", { className: "container" }, this.state.enter ? (React.createElement(scene_1.Scene, { id_curent_user: this.state.id_curent_user })) : (React.createElement(registration_1.RegistrationComponent, { setEnter: this.setEnter }))));
         };
         return App;
     }(React.Component));

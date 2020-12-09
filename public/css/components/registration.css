@@ -46,6 +46,7 @@
   max-width: 150px;
 }
 .container-registration {
+  width: 100%;
   background-color: #eeeeee;
   display: flex;
   justify-content: center;
