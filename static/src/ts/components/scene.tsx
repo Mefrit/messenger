@@ -109,27 +109,31 @@ export class Scene extends React.Component<sceneProps, sceneState> {
             });
     };
     sentMessage = (value) => {
-        fetch("/?module=dialog&action=Sent", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json;charset=utf-8",
-            },
-            body: JSON.stringify({
-                id_sent: this.state.id_sent,
-                value: value,
-                id_curent_user: this.props.id_curent_user,
-            }),
-        })
-            .then((data) => data.json())
-            .then((result) => {
-                console.log("result from server sentMessage", result);
-                if (result.status == "ok") {
-                    //сообщение что успешно все отправлено
-                    this.openDialog(this.state.id_sent, this.state.nick_interlocutor);
-                } else {
-                    alert(result.message);
-                }
-            });
+        if (this.state.id_sent == -1) {
+            alert("Выберите собеседника");
+        } else {
+            fetch("/?module=dialog&action=Sent", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8",
+                },
+                body: JSON.stringify({
+                    id_sent: this.state.id_sent,
+                    value: value,
+                    id_curent_user: this.props.id_curent_user,
+                }),
+            })
+                .then((data) => data.json())
+                .then((result) => {
+                    console.log("result from server sentMessage", result);
+                    if (result.status == "ok") {
+                        //сообщение что успешно все отправлено
+                        this.openDialog(this.state.id_sent, this.state.nick_interlocutor);
+                    } else {
+                        alert(result.message);
+                    }
+                });
+        }
     };
     searchUser = (search_nick) => {
         if (search_nick != "") {

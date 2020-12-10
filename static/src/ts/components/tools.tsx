@@ -32,13 +32,13 @@ export class ToolsComponent extends React.Component<toolsProps, toolsState> {
                     }}
                     className={element[0] == this.props.id_sent ? "dialog dialog_active" : "dialog "}
                 >
-                    <img className="dialog__image-profile" src="../src/images/profile.png" alt="profile" />
+                    <img className="dialog__image-profile" src="./static/src/images/profile.png" alt="profile" />
                     <span className="dialog__author">{element[1]} </span>
                     {show_message_count && !!element[2] ? (
                         <div className="dialog__numb-message"> {element[2]} </div>
                     ) : (
-                        ""
-                    )}
+                            ""
+                        )}
                 </li>
             );
         });
@@ -58,17 +58,17 @@ export class ToolsComponent extends React.Component<toolsProps, toolsState> {
                 <div className="menu">
                     <div className="menu__logo">
                         <span className="menu__logo-title">Mef.me</span>
-                        <img className="menu__logo-image" src="../src/images/logo.png" alt="logo" />
+                        <img className="menu__logo-image" src="./static/src/images/logo.png" alt="logo" />
                     </div>
                     <a href="#message">
                         <img
                             className="menu__logo-image menu__logo-image_small"
-                            src="../src/images/message.png"
+                            src="./static/src/images/message.png"
                             alt="about"
                         />
                     </a>
                     <a href="#openModal">
-                        <img className="menu__logo-image" src="../src/images/about.png" alt="about" />
+                        <img className="menu__logo-image" src="./static/src/images/about.png" alt="about" />
                     </a>
                 </div>
                 <div className="tools">

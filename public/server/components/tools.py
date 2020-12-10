@@ -1,6 +1,5 @@
 class Module_tools:
     def __init__(self,props):
-        print("Module_tools\n",props)
         self.db = props["db"]
 
     @staticmethod
@@ -79,5 +78,4 @@ class Module_tools:
             result["message"] = "Ошибка при получении списка друзей"
             return result
     def returnAction(self ,action, data):
-        print(action,data)
         return getattr(self, "action" + action)(self, data)

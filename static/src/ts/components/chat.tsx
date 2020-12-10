@@ -11,6 +11,7 @@ interface chatState {
 export class ChatComponent extends React.Component<chatProps, any> {
     constructor(props) {
         super(props);
+
         this.state = {
             content: "",
         };
@@ -51,12 +52,12 @@ export class ChatComponent extends React.Component<chatProps, any> {
         }
         return time == ""
             ? this.t2Dig(dat.getDate()) +
-                  "-" +
-                  this.t2Dig(dat.getMonth() + 1) +
-                  "-" +
-                  dat.getFullYear() +
-                  " " +
-                  this.getTime(dat)
+            "-" +
+            this.t2Dig(dat.getMonth() + 1) +
+            "-" +
+            dat.getFullYear() +
+            " " +
+            this.getTime(dat)
             : time;
     }
 
@@ -81,7 +82,7 @@ export class ChatComponent extends React.Component<chatProps, any> {
 
                 <img
                     className="sent-interface__image-sent"
-                    src="../src/images/sent.png"
+                    src="./static/src/images/sent.png"
                     onClick={this.sentMessage}
                     alt="sent"
                 />
@@ -92,14 +93,14 @@ export class ChatComponent extends React.Component<chatProps, any> {
         return (
             <div className="chat">
                 <div className="interlocutor-inf">
-                    <img className="interlocutor-inf__profile-img" src="../src/images/profile.png" alt="profile" />
+                    <img className="interlocutor-inf__profile-img" src="./static/src/images/profile.png" alt="profile" />
                     <h3 className="interlocutor-inf__nick">{this.props.nick_interlocutor}</h3>
                 </div>
                 {this.props.history_message.length == 0 ? (
                     <h4 className="chat__logo">Тут будет выводиться история общения с вашим собеседником</h4>
                 ) : (
-                    ""
-                )}
+                        ""
+                    )}
                 <div className="message-container">{this.renderHistory()}</div>
                 {this.renderSentInterface()}
             </div>

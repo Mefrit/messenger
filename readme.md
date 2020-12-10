@@ -1,4 +1,12 @@
 # start server
-pip install websockets
-// пришлось отказаться от web-soket тк трудности с выкладыванием на хостинг + у нас не будет чата?
-python server.py
+
+-   go to ./static
+-   npm install
+-   run gulp build
+-   run python app.py
+
+# start develop
+
+-   go to ./static
+-   npm install
+-   gulp
