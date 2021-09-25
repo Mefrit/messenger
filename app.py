@@ -9,11 +9,15 @@ def start():
         PATH2DB = "base.db"
         conf = {}
         main_server = Server(PATH2DB)
+
         conf["module"] = request.args.get("module")
         conf["action"] = request.args.get("action")
         conf["data"] = request.json
+
         result = main_server.getAnswerFromComponent(conf)
+
         return jsonify(result)
+        
     return render_template("index.html")
 
 

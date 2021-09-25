@@ -3,8 +3,11 @@ import hashlib
 class Module_registration:
     def __init__(self,props):
         self.db = props["db"]
+        
     def returnAction(self ,action, data):
         return getattr(self, "action" + action)(self, data)
+
+
     @staticmethod
     def actionReg(self, data):
         try:
